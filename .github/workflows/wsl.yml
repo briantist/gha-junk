@@ -1,0 +1,48 @@
+---
+name: WSL
+on:
+  pull_request:
+    types: ['opened', 'synchronize']
+
+jobs:
+  Windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - windows-server-2019
+          - windows-server-2022
+        distro:
+          - Ubuntu-20.04
+          - Debian
+    defaults:
+      run:
+        shell: wsl-bash {0}
+
+    steps:
+      - name: Create an admin user
+        shell: cmd
+        run: |
+          net user admin pass123@ /add /y
+          net localgroup Administrators admin /add
+
+      - name: Set up the runner for PowerShell remoting
+        shell: powershell
+        run: Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+
+      - uses: Vampire/setup-wsl@v1
+        with:
+          distribution: ${{ matrix.distro }}
+          additional-packages: |
+            git
+            python
+
+      - name: Let's install Ansible and stuff?
+        run: |
+          pip install --upgrade pip
+          pip install ansible-core pywinrm pypsrp
+
+      - name: Can we run something?
+        run: |
+          ansible --version
+          ansible localhost -m win_ping -e "ansible_connection=psrp ansible_port=5986 ansible_user=admin ansible_password=pass123@ ansible_psrp_auth=basic ansible_psrp_cert_validation=ignore"
