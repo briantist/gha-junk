@@ -28,7 +28,15 @@ jobs:
 
       - name: Set up the runner for PowerShell remoting
         shell: powershell
-        run: Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+        continue-on-error: true
+        run: |
+          try {
+              Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+          }
+          catch {
+              Enable-PSRemoting -SkipNetworkProfileCheck -Force
+          }
+
 
       - uses: Vampire/setup-wsl@v1
         with:
