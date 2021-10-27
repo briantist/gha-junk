@@ -55,4 +55,4 @@ jobs:
         run: |
           ansible --version
           ansible-galaxy collection install community.windows ansible.windows
-          ansible localhost -m win_ping -e "ansible_connection=psrp ansible_port=5986 ansible_user=admin ansible_password=pass123@ ansible_psrp_auth=basic ansible_psrp_cert_validation=ignore"
+          ansible localhost -m win_ping -e "ansible_connection=psrp ansible_port=5985 ansible_user=admin ansible_password=pass123@ ansible_psrp_auth=basic ansible_psrp_cert_validation=ignore"
