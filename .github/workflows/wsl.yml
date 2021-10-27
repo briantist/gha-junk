@@ -44,6 +44,7 @@ jobs:
           additional-packages: |
             git
             python
+            python-pip
 
       - name: Let's install Ansible and stuff?
         run: |
