@@ -42,6 +42,7 @@ jobs:
             python3-pip
 
       - name: Let's install Ansible and stuff?
+        timeout-minutes: 2
         run: |
           pip install --upgrade pip
           pip install ansible-core pywinrm pypsrp
@@ -50,4 +51,7 @@ jobs:
 
       - name: Can we run something?
         run: |
+          pwd
+          ls -alh
+          ansible-inventory -i inventory --graph
           ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
