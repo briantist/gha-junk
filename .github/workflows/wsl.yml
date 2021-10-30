@@ -50,4 +50,4 @@ jobs:
 
       - name: Can we run something?
         run: |
-          ansible localhost -i inventory -m gather_facts -e "ansible_password=pass123@"
+          ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"

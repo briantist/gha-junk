@@ -1,7 +1,8 @@
 ---
 all:
   hosts:
-    localhost:
+    windows.local:
+      ansible_host: 127.0.0.1
       ansible_connection: psrp
       ansible_port: 5986
       ansible_user: admin
