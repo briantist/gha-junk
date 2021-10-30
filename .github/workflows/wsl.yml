@@ -32,7 +32,7 @@ jobs:
         run: |
           try {
               $sb = [ScriptBlock]::Create((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
-              & $sb -SkipNetworkProfileCheck -Verbose -GlobalHttpFirewallAccess 4>&1
+              & $sb -SkipNetworkProfileCheck -Verbose -GlobalHttpFirewallAccess -ForceNewSSLCert 4>&1
               Write-Verbose Success -Verbose 4>&1
               Write-Host "host success"
           }
