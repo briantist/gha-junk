@@ -32,10 +32,12 @@ jobs:
         run: |
           try {
               $sb = [ScriptBlock]::Create((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
-              & $sb -SkipNetworkProfileCheck
-              Write-Verbose Success -Verbose
+              & $sb -SkipNetworkProfileCheck -Verbose 4>&1
+              Write-Verbose Success -Verbose 4>&1
+              Write-Host "host success"
           }
           catch {
+              exit 1
               Write-Verbose $_ -Verbose
               Enable-PSRemoting -SkipNetworkProfileCheck -Force
           }
