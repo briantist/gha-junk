@@ -2,6 +2,11 @@
 name: winspect
 on:
   workflow_dispatch:
+    inputs:
+      reg_search_regex:
+        required: false
+        description: regreg
+
 
 jobs:
   winspect:
@@ -122,4 +127,4 @@ jobs:
               }
           }
 
-          Search-Registry -Path HKLM:\ -Recurse -SearchRegex CCC2A336-D7F3-4818-A213-272B7924213E -ea SilentlyContinue | % Key
+          Search-Registry -Path HKLM:\ -Recurse -SearchRegex '${{ github.event.inputs.reg_search_regex }}' -ea SilentlyContinue | % Key
