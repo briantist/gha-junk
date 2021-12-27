@@ -127,4 +127,7 @@ jobs:
               }
           }
 
-          Search-Registry -Path HKLM:\ -Recurse -SearchRegex '${{ github.event.inputs.reg_search_regex }}' -ea SilentlyContinue | % Key
+          $reg = '${{ github.event.inputs.reg_search_regex }}'
+
+          Write-Host "Searching for '$reg'"
+          Search-Registry -Path HKLM:\ -Recurse -SearchRegex $reg -ea SilentlyContinue | % Key
