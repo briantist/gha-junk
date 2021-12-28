@@ -17,9 +17,12 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
+            const dummy = context.payload.inputs.dummy
+            dummy = dummy.replace('.', '/')
             return {
                 context: context,
-                github: github
+                github: github,
+                test1: dummy
             }
 
       - run: |
