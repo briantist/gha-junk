@@ -1,5 +1,7 @@
 ---
 name: scripty
+env:
+  TEST2: '@@@@@@@'
 on:
   workflow_dispatch:
     inputs:
@@ -22,7 +24,8 @@ jobs:
             return {
                 context: context,
                 github: github,
-                test1: dummy
+                test1: dummy,
+                test2: process.env.TEST2
             }
 
       - run: |
