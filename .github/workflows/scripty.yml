@@ -1,5 +1,5 @@
 ---
-name: winspect
+name: scripty
 on:
   workflow_dispatch:
     inputs:
