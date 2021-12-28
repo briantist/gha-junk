@@ -24,6 +24,7 @@ jobs:
             return {
                 context: context,
                 github: github,
+                env: process.env,
                 test1: dummy,
                 test2: process.env.TEST2
             }
