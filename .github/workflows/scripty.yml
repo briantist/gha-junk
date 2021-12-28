@@ -1,0 +1,28 @@
+---
+name: winspect
+on:
+  workflow_dispatch:
+    inputs:
+      dummy:
+        required: false
+        description: dummy
+
+
+jobs:
+  scripty:
+    runs-on: ubuntu-latest
+    steps:
+      - name: script
+        id: script
+        uses: actions/github-script@v5
+        with:
+          script: |
+            return {
+                context: context,
+                github: github
+            }
+
+      - run: |
+          echo <<EOF
+          ${{ steps.script.outputs.result }}
+          EOF
