@@ -22,9 +22,10 @@ jobs:
           script: |
             var gh = ${{ toJSON(github) }}
 
-            repo = gh?.event?.repo?.name || ''
+            repo = '${{ github.event.repo.name }}'
+            // gh?.event?.repo?.name || ''
             if (repo == '') {
-                repo = gh.repository.split('/')[1]
+                repo = process.env.GITHUB_REPOSITORY.split('/')[1]
             }
 
             core.warning(`repo: ${repo}`)
