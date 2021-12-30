@@ -22,7 +22,7 @@ jobs:
           script: |
             var gh = ${{ toJSON(github) }}
 
-            repo = gh.event.repo.name
+            repo = gh?.event?.repo?.name || ''
             if (repo == '') {
                 repo = gh.repository.split('/')[1]
             }
