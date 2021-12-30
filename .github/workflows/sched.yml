@@ -15,9 +15,7 @@ jobs:
           ${{ toJSON(github) }}
           '@
           "env:"
-          @'
           gci env:\
-          '@
 
       - uses: actions/github-script@v5
         with:
