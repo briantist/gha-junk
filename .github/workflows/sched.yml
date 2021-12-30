@@ -10,8 +10,13 @@ jobs:
     steps:
       - shell: pwsh
         run: |
+          "github context:"
           @'
           ${{ toJSON(github) }}
+          '@
+          "env:"
+          @'
+          gci env:\
           '@
 
       - uses: actions/github-script@v5
