@@ -18,6 +18,8 @@ jobs:
   build-docs:
     permissions:
       contents: read
+    outputs:
+      artifact-name: ${{ steps.build.outputs.artifact-name }}
     name: Build Ansible Docs
     runs-on: ubuntu-latest
     steps:
