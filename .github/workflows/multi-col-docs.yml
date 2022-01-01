@@ -40,21 +40,13 @@ jobs:
         uses: ansible-collections/community.hashi_vault/.github/actions/docs/ansible-docs-build-init@main
         with:
           collections: ${{ github.event.inputs.collections }}
-          # dest-dir: ${{ steps.vars.outputs.init-dir }}
-          # skip-init: ${{ steps.vars.outputs.skip-init }}
 
       - name: Build
         id: build
-        uses: ansible-collections/community.hashi_vault/.github/actions/docs/ansible-docs-build-html@docs/v2-close-pr-no-changes
+        uses: ansible-collections/community.hashi_vault/.github/actions/docs/ansible-docs-build-html@main
         with:
           build-script: ${{ steps.init.outputs.build-script }}
           build-html: ${{ steps.init.outputs.build-html }}
-          # artifact-name: ${{ inputs.artifact-name }}
-
-    # uses: ansible-collections/community.hashi_vault/.github/workflows/_shared-docs-build-pr.yml@main
-    # with:
-    #   init-dest-dir: docs/preview
-    #   render-file-line: '> * `$<status>` [$<path_tail>](https://community-hashi-vault-pr${{ github.event.number }}.surge.sh/$<path_tail>)'
 
   publish-docs:
     permissions:
@@ -65,6 +57,5 @@ jobs:
     with:
       artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
       surge-site-name: ansible-test-multi-col-site.surge.sh
-      # action: ${{ (github.event.action == 'closed' || needs.build-docs.outputs.changed != 'true') && 'teardown' || 'publish' }}
     secrets:
       SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
