@@ -13,7 +13,7 @@ jobs:
           gci '${{ github.event_path }}/..' -Recurse | fl
 
       - run: |
-          ls -alh '${{ github.event_path }}/..'
+          ls -alh /home/runner/work/_temp/_github_workflow
 
       - name: Dump GitHub context
         env:
