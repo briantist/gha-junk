@@ -1,6 +1,7 @@
+name: RUW Caller
 on:
   workflow_dispatch:
 
 jobs:
   calling:
-    uses: briantist/gha-junk/.github/workflows/reusable.yml@main
+    uses: briantist/gha-junk/.github/workflows/reusable.yml@ZZZmain
