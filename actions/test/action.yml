@@ -1,0 +1,7 @@
+name: testaction
+description: test
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "::warning::Success"
