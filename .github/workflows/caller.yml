@@ -4,4 +4,4 @@ on:
 
 jobs:
   calling:
-    uses: briantist/gha-junk/.github/workflows/reusable.yml@ZZZmain
+    uses: briantist/gha-junk/.github/workflows/reusable.yml@main
