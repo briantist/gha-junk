@@ -10,7 +10,10 @@ jobs:
         run: |
           gci env: | fl
 
-          gci '${{ github.event_path }}/..' -Recurse
+          gci '${{ github.event_path }}/..' -Recurse | fl
+
+      - run: |
+          ls -alh '${{ github.event_path }}/..'
 
       - name: Dump GitHub context
         env:
