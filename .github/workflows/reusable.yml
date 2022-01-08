@@ -8,7 +8,7 @@ jobs:
       - shell: pwsh
         name: dump
         run: |
-          ls env:
+          gci env:
 
       - name: Dump GitHub context
         env:
