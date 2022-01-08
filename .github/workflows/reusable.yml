@@ -15,6 +15,7 @@ jobs:
 
       - run: |
           ls -alh /home/runner/work/_temp/_github_workflow
+          cat ${{ github.event_path }}
 
       - name: Dump GitHub context
         env:
