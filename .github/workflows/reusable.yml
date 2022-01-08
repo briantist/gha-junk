@@ -8,7 +8,9 @@ jobs:
       - shell: pwsh
         name: dump
         run: |
-          gci env: | ft -auto
+          gci env: | fl
+
+          gci '${{ github.event_path }}/..' -Recurse
 
       - name: Dump GitHub context
         env:
