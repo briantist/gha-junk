@@ -13,7 +13,7 @@ jobs:
 
       - name: Install Surge
         run: |
-          npm install -g colors@1.4.0
-          npm install -g surge
+          npm install -g colors@1.4.0 surge
+          npm list -g | grep colors
 
       - run: surge whoami
