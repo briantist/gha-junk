@@ -12,6 +12,8 @@ jobs:
           node-version: 14
 
       - name: Install Surge
-        run: npm ci -g surge
+        run: |
+          npm install -g colors@1.4.0
+          npm install -g surge
 
       - run: surge whoami
