@@ -53,7 +53,7 @@ jobs:
       contents: read
     needs: build-docs
     name: Publish Ansible Docs
-    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-surge.yml@main
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-publish-surge.yml@deps/pin-surge-colors
     with:
       artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
       surge-site-name: ansible-test-multi-col-site.surge.sh
