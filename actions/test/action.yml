@@ -1,4 +1,4 @@
-name: testaction
+name: test action
 description: test
 runs:
   using: composite
