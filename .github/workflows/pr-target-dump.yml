@@ -64,6 +64,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           path: head
 
+      - name: Delete .git
+        run: |
+          rm -rf base/.git
+          rm -rf merge/.git
+          rm -rf mergesha/.git
+          rm -rf head/.git
+
       - name: Hashes
         shell: pwsh
         run: |
