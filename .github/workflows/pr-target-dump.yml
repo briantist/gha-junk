@@ -35,3 +35,39 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJSON(matrix) }}
         run: echo "$MATRIX_CONTEXT"
+
+      - name: Checkout Base
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Checkout merge commit
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: refs/pull/${{ github.event.number }}/merge
+          path: merge
+
+      - name: Checkout merge commit SHA
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          path: mergesha
+
+      - name: Checkout Head
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: head
+
+      - name: Hashes
+        shell: pwsh
+        run: |
+          'base [${{ github.event.pull_request.base.sha }}]: ${{ hashFiles('base') }}'
+          'merge [refs/pull/${{ github.event.number }}/merge]: ${{ hashFiles('merge') }}'
+          'mergesha [${{ github.event.pull_request.merge_commit_sha }}]: ${{ hashFiles('mergesha') }}'
+          'head [${{ github.event.pull_request.head.sha }}]: ${{ hashFiles('head') }}'
