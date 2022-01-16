@@ -1,4 +1,4 @@
-name: pr target stuff
+name: push target stuff
 on:
   push:
     branches: [main]
