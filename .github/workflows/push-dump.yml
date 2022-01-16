@@ -2,7 +2,7 @@ name: push target stuff
 on:
   push:
     branches: [main]
-    tags: [*]
+    tags: ['*']
 jobs:
   dump:
     runs-on: ubuntu-latest
