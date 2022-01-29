@@ -1,4 +1,4 @@
-name: Buld a docsite out of multiple collections (sample)
+name: shared-dcos-tester
 on:
   workflow_dispatch:
     inputs:
