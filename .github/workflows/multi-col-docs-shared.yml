@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
     name: Build Ansible Docs
-    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@built-init/lenient-and-strict
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@build-init/lenient-and-strict
     with:
       collections: ${{ github.event.inputs.collections }}
       init-antsibull-version: main
@@ -30,7 +30,7 @@ jobs:
     permissions:
       contents: read
     name: Build Ansible Docs
-    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@built-init/lenient-and-strict
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@build-init/lenient-and-strict
     with:
       collections: ${{ github.event.inputs.collections }}
 
