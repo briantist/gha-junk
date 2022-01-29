@@ -1,0 +1,48 @@
+name: Buld a docsite out of multiple collections (sample)
+on:
+  workflow_dispatch:
+    inputs:
+      collections:
+        description: Space separate list of collections to install and build.
+        required: true
+      ansible-ref:
+        description: the branch or ref to install Ansible from.
+        required: false
+        default: milestone
+
+env:
+  SURGE_SITE: ansible-test-multi-col-site.surge.sh
+  ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}
+
+jobs:
+  build-docs-1:
+    permissions:
+      contents: read
+    name: Build Ansible Docs
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@built-init/lenient-and-strict
+    with:
+      collections: ${{ github.event.inputs.collections }}
+      init-antsibull-version: main
+      init-lenient: true
+      init-fail-on-error: true
+
+  build-docs-2:
+    permissions:
+      contents: read
+    name: Build Ansible Docs
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-push.yml@built-init/lenient-and-strict
+    with:
+      collections: ${{ github.event.inputs.collections }}
+
+
+  # publish-docs:
+  #   permissions:
+  #     contents: read
+  #   needs: build-docs
+  #   name: Publish Ansible Docs
+  #   uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-surge.yml@main
+  #   with:
+  #     artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
+  #     surge-site-name: ansible-test-multi-col-site.surge.sh
+  #   secrets:
+  #     SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
