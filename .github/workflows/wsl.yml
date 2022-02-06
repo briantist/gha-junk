@@ -52,9 +52,16 @@ jobs:
 
       - name: Fix Ubuntu 20.04
         if: steps.wsl.outcome != 'success'
-        shell: bash
+        shell: pwsh
         working-directory: C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
-        run: mv ubuntu.exe ubuntu2004.exe
+        run: |
+          pwd
+          gci .
+          gci C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
+          Rename-Item -LiteralPath ubuntu.exe -NewName ubuntu2004.exe -ErrorAction Continue
+          Rename-Item -LiteralPath C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64\ubuntu.exe -NewName ubuntu2004.exe
+
+        #mv ubuntu.exe ubuntu2004.exe
 
       - name: Recover (Ubuntu 20.04)
         uses: Vampire/setup-wsl@v1
