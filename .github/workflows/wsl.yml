@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: briantist/setup-wsl@v1-patch-1
-        # continue-on-error: true
+        continue-on-error: true
         id: wsl
         with:
           use-cache: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
@@ -57,6 +57,11 @@ jobs:
             coreutils
             python3
             python3-pip
+
+      - name: DEBUG
+        if: steps.wsl.outcome != 'success'
+        shell: cmd
+        run: wsl.exe --list -v
 
       # - name: Fix Ubuntu 20.04
       #   if: steps.wsl.outcome != 'success'
