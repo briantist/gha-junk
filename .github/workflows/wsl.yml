@@ -60,5 +60,6 @@ jobs:
         run: |
           pwd
           ls -alh
+          ANSIBLE_DEBUG=1 ansible --version -vvvvvvvvvvvvvvvvvv
           ansible-inventory -i inventory --graph
           ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
