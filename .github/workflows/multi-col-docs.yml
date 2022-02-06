@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       collections:
-        description: Space separate list of collections to install and build.
+        description: Space separated list of collections to install and build.
         required: true
       ansible-ref:
         description: the branch or ref to install Ansible from.
@@ -44,7 +44,7 @@ jobs:
         uses: ansible-community/github-docs-build/actions/ansible-docs-build-init@main
         with:
           collections: ${{ github.event.inputs.collections }}
-          lenient: ${{ github.events.inputs.lenient }}
+          lenient: ${{ github.event.inputs.lenient }}
 
       - name: Build
         id: build
