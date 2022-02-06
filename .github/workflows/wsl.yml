@@ -57,9 +57,11 @@ jobs:
           timeout 5s pwd
 
       - name: Can we run something?
-        run: |
-          pwd
-          ls -alh
-          ANSIBLE_DEBUG=1 ansible --version -vvvvvvvvvvvvvvvvvv
-          ansible-inventory -i inventory --graph
-          ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+        shell: cmd
+        run: wsl.exe ansible --version
+        # run: |
+        #   pwd
+        #   ls -alh
+        #   ANSIBLE_DEBUG=1 ansible --version -vvvvvvvvvvvvvvvvvv
+        #   ansible-inventory -i inventory --graph
+        #   ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
