@@ -48,17 +48,33 @@ jobs:
             python3-pip
 
       - name: Let's install Ansible and stuff?
-        timeout-minutes: 2
-        run: |
-          pip install --upgrade pip
-          pip install ansible-core pywinrm pypsrp
-          #ansible --version
-          #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
-          timeout 5s pwd
+        shell: cmd
+        env:
+          SCRIPT: |
+            pip install --upgrade pip
+            pip install ansible-core pywinrm pypsrp
+            ansible --version
+            ansible-galaxy collection install community.windows ansible.windows
+            pwd
+        run: echo %SCRIPT% | wsl.exe
+
+
+          # pip install --upgrade pip
+          # pip install ansible-core pywinrm pypsrp
+          # #ansible --version
+          # #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
+          # timeout 5s pwd
 
       - name: Can we run something?
+        env:
+          RUNME: |
+            ansible-inventory -i inventory --graph
+            ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+
         shell: cmd
-        run: wsl.exe ansible --version
+        run: echo %RUNME% | wsl.exe
+
+
         # run: |
         #   pwd
         #   ls -alh
