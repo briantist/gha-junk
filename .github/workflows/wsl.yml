@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - .github/wsl.yml
+      - .github/workflows/wsl.yml
 
 jobs:
   Windows:
