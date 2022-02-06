@@ -50,6 +50,7 @@ jobs:
         id: wsl
         with:
           use-cache: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
+          set-as-default: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
           distribution: ${{ matrix.distro }}
           update: ${{ matrix.update }}
           additional-packages: |
