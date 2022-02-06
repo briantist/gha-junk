@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: briantist/setup-wsl@patch-1
+      - uses: briantist/setup-wsl@v1-patch-1
         # continue-on-error: true
         id: wsl
         with:
