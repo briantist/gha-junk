@@ -9,6 +9,10 @@ on:
         description: the branch or ref to install Ansible from.
         required: false
         default: milestone
+      lenient:
+        description: use lenient mode
+        required: false
+        default: 'false'
 
 env:
   SURGE_SITE: ansible-test-multi-col-site.surge.sh
@@ -40,6 +44,7 @@ jobs:
         uses: ansible-community/github-docs-build/actions/ansible-docs-build-init@main
         with:
           collections: ${{ github.event.inputs.collections }}
+          lenient: ${{ github.events.inputs.lenient }}
 
       - name: Build
         id: build
