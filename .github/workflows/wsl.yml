@@ -43,7 +43,6 @@ jobs:
         continue-on-error: true
         id: wsl
         with:
-          use-cache: 'false'
           distribution: ${{ matrix.distro }}
           additional-packages: |
             git
@@ -53,6 +52,7 @@ jobs:
 
       - name: Fix Ubuntu 20.04
         if: steps.wsl.outcome != 'success'
+        shell: bash
         working-directory: C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
         run: mv ubuntu.exe ubuntu2004.exe
 
@@ -60,7 +60,6 @@ jobs:
         uses: Vampire/setup-wsl@v1
         if: steps.wsl.outcome != 'success'
         with:
-          use-cache: 'false'
           distribution: ${{ matrix.distro }}
           additional-packages: |
             git
