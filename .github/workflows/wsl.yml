@@ -19,6 +19,12 @@ jobs:
           - Ubuntu-18.04
           - Ubuntu-20.04
           - Debian
+        update:
+          - false
+        include:
+          - distro: Debian
+            os: windows-2022
+            update: true
     defaults:
       run:
         shell: wsl-bash {0}
@@ -45,6 +51,7 @@ jobs:
         with:
           use-cache: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
           distribution: ${{ matrix.distro }}
+          update: ${{ matrix.update }}
           additional-packages: |
             git
             coreutils
