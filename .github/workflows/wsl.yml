@@ -16,6 +16,7 @@ jobs:
           - windows-2019
           - windows-2022
         distro:
+          - Ubuntu-18.04
           - Ubuntu-20.04
           - Debian
     defaults:
