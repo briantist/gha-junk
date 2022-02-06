@@ -40,6 +40,25 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: Vampire/setup-wsl@v1
+        continue-on-error: true
+        id: wsl
+        with:
+          use-cache: 'false'
+          distribution: ${{ matrix.distro }}
+          additional-packages: |
+            git
+            coreutils
+            python3
+            python3-pip
+
+      - name: Fix Ubuntu 20.04
+        if: steps.wsl.outcome != 'success'
+        working-directory: C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
+        run: mv ubuntu.exe ubuntu2004.exe
+
+      - name: Recover (Ubuntu 20.04)
+        uses: Vampire/setup-wsl@v1
+        if: steps.wsl.outcome != 'success'
         with:
           use-cache: 'false'
           distribution: ${{ matrix.distro }}
@@ -52,8 +71,8 @@ jobs:
       - name: Let's install Ansible and stuff?
         timeout-minutes: 2
         run: |
-          pip3 install --upgrade pip
-          pip3 install ansible-core pywinrm pypsrp
+          python3 -m pip install --upgrade pip
+          python3 -m pip install ansible-core pywinrm pypsrp
           #ansible --version
           #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
           timeout 5s pwd
