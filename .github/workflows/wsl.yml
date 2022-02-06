@@ -43,6 +43,7 @@ jobs:
         continue-on-error: true
         id: wsl
         with:
+          use-cache: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
           distribution: ${{ matrix.distro }}
           additional-packages: |
             git
