@@ -77,7 +77,7 @@ jobs:
       - name: Let's install Ansible and stuff?
         timeout-minutes: 2
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip setuptools
           python3 -m pip install ansible-core pywinrm pypsrp
           #ansible --version
           #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
