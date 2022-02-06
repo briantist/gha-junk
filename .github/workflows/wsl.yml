@@ -2,12 +2,15 @@
 name: WSL
 on:
   pull_request:
-    types: ['opened', 'synchronize']
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/wsl.yml
 
 jobs:
   Windows:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - windows-2019
