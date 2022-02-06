@@ -39,8 +39,8 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: Vampire/setup-wsl@v1
-        continue-on-error: true
+      - uses: briantist/setup-wsl@patch-1
+        # continue-on-error: true
         id: wsl
         with:
           use-cache: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
@@ -51,29 +51,29 @@ jobs:
             python3
             python3-pip
 
-      - name: Fix Ubuntu 20.04
-        if: steps.wsl.outcome != 'success'
-        shell: pwsh
-        working-directory: C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
-        run: |
-          pwd
-          gci .
-          gci C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
-          Rename-Item -LiteralPath ubuntu.exe -NewName ubuntu2004.exe -ErrorAction Continue
-          Rename-Item -LiteralPath C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64\ubuntu.exe -NewName ubuntu2004.exe
+      # - name: Fix Ubuntu 20.04
+      #   if: steps.wsl.outcome != 'success'
+      #   shell: pwsh
+      #   working-directory: C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
+      #   run: |
+      #     pwd
+      #     gci .
+      #     gci C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64
+      #     Rename-Item -LiteralPath ubuntu.exe -NewName ubuntu2004.exe -ErrorAction Continue
+      #     Rename-Item -LiteralPath C:\hostedtoolcache\windows\Ubuntu\20.4.0\x64\ubuntu.exe -NewName ubuntu2004.exe
 
-        #mv ubuntu.exe ubuntu2004.exe
+      #   #mv ubuntu.exe ubuntu2004.exe
 
-      - name: Recover (Ubuntu 20.04)
-        uses: Vampire/setup-wsl@v1
-        if: steps.wsl.outcome != 'success'
-        with:
-          distribution: ${{ matrix.distro }}
-          additional-packages: |
-            git
-            coreutils
-            python3
-            python3-pip
+      # - name: Recover (Ubuntu 20.04)
+      #   uses: Vampire/setup-wsl@v1
+      #   if: steps.wsl.outcome != 'success'
+      #   with:
+      #     distribution: ${{ matrix.distro }}
+      #     additional-packages: |
+      #       git
+      #       coreutils
+      #       python3
+      #       python3-pip
 
       - name: Let's install Ansible and stuff?
         timeout-minutes: 2
