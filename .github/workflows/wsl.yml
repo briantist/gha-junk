@@ -41,6 +41,7 @@ jobs:
 
       - uses: Vampire/setup-wsl@v1
         with:
+          use-cache: 'false'
           distribution: ${{ matrix.distro }}
           additional-packages: |
             git
@@ -51,8 +52,8 @@ jobs:
       - name: Let's install Ansible and stuff?
         timeout-minutes: 2
         run: |
-          pip install --upgrade pip
-          pip install ansible-core pywinrm pypsrp
+          pip3 install --upgrade pip
+          pip3 install ansible-core pywinrm pypsrp
           #ansible --version
           #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
           timeout 5s pwd
