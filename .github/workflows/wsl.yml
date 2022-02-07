@@ -98,15 +98,21 @@ jobs:
           timeout 5s pwd
 
       - name: Can we run something?
-        shell: cmd
+        env:
+          ANSIBLE_DEBUG: 1
+          ANSIBLE_VERBOSITY: 15
         run: |
-          wsl.exe ansible --version
-          wsl.exe ANSIBLE_DEBUG=1 ansible-galaxy collection install community.windows ansible.windows -vvvvvvvvvvvvvvvv
-          wsl.exe ansible-inventory -i inventory --graph
-          wsl.exe ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+          pwd
+          ls -alh
+          ansible --version
+          ansible-inventory -i inventory --graph
+          ansible localhost -m gather_facts
+          ansible-galaxy collection install community.windows ansible.windows
+          ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+
+        # shell: cmd
         # run: |
-        #   pwd
-        #   ls -alh
-        #   ANSIBLE_DEBUG=1 ansible --version -vvvvvvvvvvvvvvvvvv
-        #   ansible-inventory -i inventory --graph
-        #   ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+        #   wsl.exe ansible --version
+        #   wsl.exe ANSIBLE_DEBUG=1 ansible-galaxy collection install community.windows ansible.windows -vvvvvvvvvvvvvvvv
+        #   wsl.exe ansible-inventory -i inventory --graph
+        #   wsl.exe ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
