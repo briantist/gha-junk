@@ -101,7 +101,7 @@ jobs:
         shell: cmd
         run: |
           wsl.exe ansible --version
-          wsl.exe ansible-galaxy collection install community.windows ansible.windows
+          wsl.exe ANSIBLE_DEBUG=1 ansible-galaxy collection install community.windows ansible.windows -vvvvvvvvvvvvvvvv
           wsl.exe ansible-inventory -i inventory --graph
           wsl.exe ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
         # run: |
