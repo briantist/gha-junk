@@ -94,7 +94,7 @@ jobs:
           python3 -m pip install --upgrade pip setuptools
           python3 -m pip install ansible-core pywinrm pypsrp
           #ansible --version
-          #timeout 2m bash -c 'ansible-galaxy collection install community.windows ansible.windows' && echo yay || echo oh
+          strace -ttT ansible-galaxy collection install community.windows ansible.windows
           timeout 5s pwd
 
       - name: Can we run something?
