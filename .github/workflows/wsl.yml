@@ -66,7 +66,7 @@ jobs:
           python3 -m pip install --upgrade pip setuptools
           python3 -m pip install ansible-core pywinrm pypsrp
           #ansible --version
-          strace -ttT ansible-galaxy collection install community.windows ansible.windows
+          # strace -ttT ansible-galaxy collection install community.windows ansible.windows
           timeout 5s pwd
 
       - name: Can we run something?
@@ -76,8 +76,8 @@ jobs:
         run: |
           pwd
           ls -alh
-          ansible --version
-          ansible-inventory -i inventory --graph
+          strace ansible --version
+          strace ansible-inventory -i inventory --graph
           ansible localhost -m gather_facts
           ansible-galaxy collection install community.windows ansible.windows
           ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
