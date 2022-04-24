@@ -1,0 +1,30 @@
+name: Test PR docs-build workflow
+on:
+  pull_request:
+    types: [opened, synchronize, closed, reopened]
+
+env:
+  SURGE_SITE: ansible-test-pr-docs.surge.sh
+  ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}
+
+jobs:
+  build-docs:
+    permissions:
+      contents: read
+    name: Build Ansible Docs
+    uses: briantist/github-docs-build/.github/workflows/_shared-docs-build-pr.yml@pr-commits
+    with:
+      collection-name: fake.one
+
+
+  publish-docs:
+    permissions:
+      contents: read
+    needs: build-docs
+    name: Publish Ansible Docs
+    uses: ansible-community/github-docs-build/.github/workflows/_shared-docs-build-publish-surge.yml@main
+    with:
+      artifact-name: ${{ needs.build-docs.outputs.artifact-name }}
+      surge-site-name: ansible-test-multi-col-site.surge.sh
+    secrets:
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
