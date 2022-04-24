@@ -1,0 +1,80 @@
+name: pr event stuff
+on:
+  pull_request:
+    types: [opened, closed, synchronize, reopened]
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: pwsh
+        name: dump
+        run: |
+          gci env: | fl
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+      - name: Checkout Base
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Checkout merge commit
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: refs/pull/${{ github.event.number }}/merge
+          path: merge
+
+      - name: Checkout merge commit SHA
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          path: mergesha
+
+      - name: Checkout Head
+        uses: actions/checkout@v2
+        continue-on-error: true
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: head
+
+      - name: Delete .git
+        run: |
+          rm -rf base/.git
+          rm -rf merge/.git
+          rm -rf mergesha/.git
+          rm -rf head/.git
+
+      - name: Hashes
+        shell: pwsh
+        run: |
+          'base [${{ github.event.pull_request.base.sha }}]: ${{ hashFiles('base') }}'
+          'merge [refs/pull/${{ github.event.number }}/merge]: ${{ hashFiles('merge') }}'
+          'mergesha [${{ github.event.pull_request.merge_commit_sha }}]: ${{ hashFiles('mergesha') }}'
+          'head [${{ github.event.pull_request.head.sha }}]: ${{ hashFiles('head') }}'
