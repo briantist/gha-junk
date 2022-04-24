@@ -1,4 +1,4 @@
-name: Buld a docsite out of multiple collections (sample)
+name: Test PR docs-build workflow
 on:
   pull_request:
     types: [opened, synchronize, closed, reopened]
