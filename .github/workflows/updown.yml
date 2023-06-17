@@ -21,6 +21,7 @@ jobs:
           retention-days: 1
 
   _1down:
+    needs: [_1up]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
