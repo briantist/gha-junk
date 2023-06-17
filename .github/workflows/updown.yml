@@ -18,6 +18,7 @@ jobs:
         with:
           name: art
           path: dir/
+          retention-days: 1
 
   _1down:
     runs-on: ubuntu-latest
