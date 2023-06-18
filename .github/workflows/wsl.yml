@@ -2,24 +2,39 @@
 name: WSL
 on:
   pull_request:
-    types: ['opened', 'synchronize']
+    types: [opened, synchronize, reopened]
+    paths:
+      - .github/workflows/wsl.yml
 
 jobs:
   Windows:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
-          - windows-server-2019
-          - windows-server-2022
+          - windows-2019
+          - windows-2022
         distro:
+          - Ubuntu-18.04
           - Ubuntu-20.04
           - Debian
+        update:
+          - false
+        include:
+          - distro: Debian
+            os: windows-2022
+            update: true
     defaults:
       run:
         shell: wsl-bash {0}
 
     steps:
+      - name: Disable offloading
+        shell: powershell
+        run: |
+          Disable-NetAdapterChecksumOffload -Name * -TcpIPv4 -UdpIPv4 -TcpIPv6 -UdpIPv6
+
       - name: Create an admin user
         shell: cmd
         run: |
@@ -28,21 +43,53 @@ jobs:
 
       - name: Set up the runner for PowerShell remoting
         shell: powershell
-        run: Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+        continue-on-error: true
+        run: |
+          $sb = [ScriptBlock]::Create((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+          & $sb -Verbose -ForceNewSSLCert 4>&1
+
+      - uses: actions/checkout@v2
 
       - uses: Vampire/setup-wsl@v1
+        continue-on-error: true
+        id: wsl
         with:
+          # use-cache: ${{ matrix.distro == 'Ubuntu' && 'false' || 'true' }}
+          # set-as-default: ${{ matrix.distro == 'Ubuntu-20.04' && 'false' || 'true' }}
           distribution: ${{ matrix.distro }}
+          update: ${{ matrix.update }}
           additional-packages: |
             git
-            python
+            coreutils
+            python3
+            python3-pip
+            strace
 
       - name: Let's install Ansible and stuff?
+        timeout-minutes: 2
         run: |
-          pip install --upgrade pip
-          pip install ansible-core pywinrm pypsrp
+          python3 -m pip install --upgrade pip setuptools
+          python3 -m pip install ansible-core pywinrm pypsrp
+          #ansible --version
+          # strace -ttT ansible-galaxy collection install community.windows ansible.windows
+          timeout 5s pwd
 
       - name: Can we run something?
+        env:
+          ANSIBLE_DEBUG: 1
+          ANSIBLE_VERBOSITY: 15
         run: |
-          ansible --version
-          ansible localhost -m win_ping -e "ansible_connection=psrp ansible_port=5986 ansible_user=admin ansible_password=pass123@ ansible_psrp_auth=basic ansible_psrp_cert_validation=ignore"
+          pwd
+          ls -alh
+          strace ansible --version
+          strace ansible-inventory -i inventory --graph
+          ansible localhost -m gather_facts
+          ansible-galaxy collection install community.windows ansible.windows
+          ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
+
+        # shell: cmd
+        # run: |
+        #   wsl.exe ansible --version
+        #   wsl.exe ANSIBLE_DEBUG=1 ansible-galaxy collection install community.windows ansible.windows -vvvvvvvvvvvvvvvv
+        #   wsl.exe ansible-inventory -i inventory --graph
+        #   wsl.exe ansible windows.local -i inventory -m gather_facts -e "ansible_password=pass123@"
