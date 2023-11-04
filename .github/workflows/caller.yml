@@ -5,3 +5,10 @@ on:
 jobs:
   calling:
     uses: briantist/gha-junk/.github/workflows/reusable.yml@main
+
+  callsec:
+    uses: ./.github/workflows/reuwsec.yml
+    permissions:
+      contents: read
+    secrets:
+      abc: ${{ secrets.SAMPLE_SECRET }}

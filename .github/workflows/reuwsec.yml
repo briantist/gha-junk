@@ -1,0 +1,17 @@
+---
+on:
+  workflow_call:
+    secrets:
+      abc:
+        required: true
+
+jobs:
+  sampsec:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - shell: pwsh
+        run: |
+          '${{ secrets.abc }}'.Length
+          '${{ secrets.ACTIONS_RUNNER_DEBUG }}'.Length
