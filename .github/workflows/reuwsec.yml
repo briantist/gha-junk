@@ -14,4 +14,4 @@ jobs:
       - shell: pwsh
         run: |
           '${{ secrets.abc }}'.Length
-          '${{ secrets.ACTIONS_RUNNER_DEBUG }}'.Length
+          '${{ secrets.SAMP2 }}'.Length
